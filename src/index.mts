@@ -24,10 +24,11 @@ interface TailNode<Key, Value> extends Node<Key, Value> {
     next: null;
 }
 
-interface DisjointedNode<Key, Value> extends Node<Key, Value> {
-    key: Key;
-    prev: null;
-    next: null;
+export interface CacheStats {
+    hits: number;
+    misses: number;
+    evictions: number;
+    sets: number;
 }
 
 export class LRUCache<Key = unknown, Value = unknown> {
@@ -35,6 +36,11 @@ export class LRUCache<Key = unknown, Value = unknown> {
     private readonly cache = new Map<Key, MiddleNode<Key, Value>>();
     private readonly head: HeadNode<Key, Value>;
     private readonly tail: TailNode<Key, Value>;
+
+    private hits = 0;
+    private misses = 0;
+    private evictions = 0;
+    private sets = 0;
 
     public constructor(capacity: number) {
         this.capacity = capacity;
@@ -47,18 +53,22 @@ export class LRUCache<Key = unknown, Value = unknown> {
         const node = this.cache.get(key);
         if (node !== undefined) {
             if (node.expirationTime !== null && node.expirationTime < Date.now()) {
+                ++this.misses;
                 this.removeNode(node);
                 return undefined;
             }
 
+            ++this.hits;
             this.moveToHead(node);
             return node.value;
         }
 
+        ++this.misses;
         return undefined;
     }
 
     public set(key: Key, value: Value, expirationTime: number | null = null): Value {
+        ++this.sets;
         const node = this.cache.get(key);
         const expiration = expirationTime !== null ? Date.now() + expirationTime : null;
         if (node !== undefined) {
@@ -78,6 +88,7 @@ export class LRUCache<Key = unknown, Value = unknown> {
             this.cache.set(key, newNode);
 
             if (this.cache.size > this.capacity) {
+                ++this.evictions;
                 this.removeNode(this.tail.prev as MiddleNode<Key, Value>);
             }
         }
@@ -98,8 +109,7 @@ export class LRUCache<Key = unknown, Value = unknown> {
         while (next !== this.tail) {
             const node = next as MiddleNode<Key, Value>;
             next = node.next;
-            (node as unknown as DisjointedNode<Key, Value>).prev = null;
-            (node as unknown as DisjointedNode<Key, Value>).next = null;
+            this.disjoint(node);
         }
 
         this.head.next = this.tail;
@@ -112,6 +122,21 @@ export class LRUCache<Key = unknown, Value = unknown> {
 
     public get length(): number {
         return this.cache.size;
+    }
+
+    public get stats(): CacheStats {
+        return {
+            hits: this.hits,
+            misses: this.misses,
+            evictions: this.evictions,
+            sets: this.sets,
+        };
+    }
+
+    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+    private disjoint(node: Node<Key, Value>): void {
+        node.prev = null;
+        node.next = null;
     }
 
     private moveToHead(node: MiddleNode<Key, Value>): void {
@@ -128,7 +153,6 @@ export class LRUCache<Key = unknown, Value = unknown> {
         node.prev.next = node.next;
         node.next.prev = node.prev;
         this.cache.delete(node.key);
-        (node as unknown as DisjointedNode<Key, Value>).prev = null;
-        (node as unknown as DisjointedNode<Key, Value>).next = null;
+        this.disjoint(node);
     }
 }

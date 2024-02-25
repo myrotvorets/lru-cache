@@ -87,6 +87,23 @@ describe('LRUCache', function () {
         });
     });
 
+    describe('stats()', function () {
+        it('should return the correct stats', function () {
+            const cache = new LRUCache<number, number>(2);
+            cache.set(1, 1);
+            cache.set(2, 2);
+            cache.get(1);
+            cache.set(3, 3);
+            cache.get(4);
+            deepStrictEqual(cache.stats, {
+                hits: 1,
+                misses: 1,
+                evictions: 1,
+                sets: 3,
+            });
+        });
+    });
+
     describe('LRU invariant', function () {
         it('should maintain LRU invariant for get()', function () {
             const cache = new LRUCache<number, number>(2);
