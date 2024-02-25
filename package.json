@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "LRU cache implementation.",
   "type": "module",
-  "exports": "./dist/lib/index.mjs",
+  "exports": "./dist/src/index.mjs",
   "scripts": {
     "prepack": "npm run build",
     "build": "tsc",
