@@ -1,6 +1,6 @@
 {
   "name": "@myrotvorets/lru-cache",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "LRU cache implementation.",
   "type": "module",
   "exports": "./dist/src/index.mjs",
