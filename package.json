@@ -1,6 +1,6 @@
 {
   "name": "@myrotvorets/lru-cache",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "LRU cache implementation.",
   "type": "module",
   "exports": "./dist/lib/index.mjs",
@@ -19,7 +19,11 @@
     "dist/src/index.mjs.map"
   ],
   "typings": "./dist/src/index.d.mts",
-  "keywords": ["lru", "cache", "lru-cache"],
+  "keywords": [
+    "lru",
+    "cache",
+    "lru-cache"
+  ],
   "author": "Myrotvorets <support@myrotvorets.center> (https://myrotvorets.center/)",
   "license": "MIT",
   "devDependencies": {
@@ -35,8 +39,7 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "publishConfig": {
     "access": "public",
     "provenance": true
