@@ -40,6 +40,10 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/myrotvorets/lru-cache.git"
+  },
   "publishConfig": {
     "access": "public",
     "provenance": true
