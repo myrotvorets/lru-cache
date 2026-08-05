@@ -31,7 +31,7 @@
     "@types/mocha": "^10.0.10",
     "c8": "^12.0.0",
     "eslint-formatter-gha": "^2.0.1",
-    "eslint-plugin-mocha": "^11.2.0",
+    "eslint-plugin-mocha": "^12.0.0",
     "mocha": "^11.7.5",
     "mocha-multi": "^1.1.7",
     "mocha-reporter-gha": "^2.0.3",
