@@ -27,7 +27,7 @@
   "author": "Myrotvorets <support@myrotvorets.center> (https://myrotvorets.center/)",
   "license": "MIT",
   "devDependencies": {
-    "@myrotvorets/eslint-config-myrotvorets-ts": "^3.1.1",
+    "@myrotvorets/eslint-config-myrotvorets-ts": "^4.0.0",
     "@types/mocha": "^10.0.10",
     "c8": "^12.0.0",
     "eslint-formatter-gha": "^2.0.1",
